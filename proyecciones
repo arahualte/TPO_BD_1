@@ -1,0 +1,27 @@
+--3.1. Proyectar los pacientes con la mayor cantidad de estudios realizados.
+WITH pme([DNI Paciente], [Apellido Paciente], [Nombre Paciente], [Nac. Paciente], [Sexo Paciente], Cantidad)
+AS
+  (
+  SELECT 
+    [DNI Paciente],
+    [Apellido Paciente],
+    [Nombre Paciente],
+    [Nac. Paciente],
+    [Sexo Paciente],
+    count(1) AS 'Cantidad' 
+  FROM 
+    vw_registros_de_estudios r
+  GROUP BY 
+    [DNI Paciente],
+    [Apellido Paciente],
+    [Nombre Paciente],
+    [Nac. Paciente],
+    [Sexo Paciente] 
+  )
+SELECT 
+  * 
+FROM 
+  pme
+WHERE
+ pme.Cantidad = (SELECT MAX(Cantidad) FROM pme)
+GO
